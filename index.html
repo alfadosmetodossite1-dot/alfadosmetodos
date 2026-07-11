@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <title>Alfa Métodos | Evolução com Propósito</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ===== BASE (mantido) ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #000000;
+            --bg-panel: #000000;
+            --bg-panel-2: #000000;
+            --ink: #ffffff;
+            --ink-dim: #ffffff;
+            --ink-faint: #ffffff;
+            --gold: #574a23;
+            --gold-bright: #575231;
+            --silver: #3b331a;
+            --ember: #b8451f;
+            --line: rgba(0, 0, 0, 0.16);
+            --line-strong: rgba(0, 0, 0, 0.32);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(ellipse 900px 500px at 15% -10%, rgba(0, 0, 0, 0.07), transparent 60%),
+                radial-gradient(ellipse 700px 500px at 100% 20%, rgba(0, 0, 0, 0.05), transparent 55%);
+            color: var(--ink);
+            font-family: 'Work Sans', sans-serif;
+            line-height: 1.55;
+            padding-top: 84px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1240px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            color: #f5f0e6;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== HEADER (mantido) ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.86);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--line);
+            padding: 0.7rem 0;
+            z-index: 999;
+        }
+
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo-mark {
+            width: 120px;
+            height: 120px;
+            border-radius: 3px;
+            border: 1px solid var(--line-strong);
+            background: var(--bg-panel-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .logo-mark img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-logo .logo-text {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #f5f0e6;
+            white-space: nowrap;
+            text-transform: uppercase;
+        }
+
+        .header-logo .logo-text span {
+            color: var(--gold);
+            font-weight: 500;
+            letter-spacing: 3px;
+            font-size: 1rem;
+            margin-left: 4px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 2.4rem;
+        }
+
+        .nav a {
+            color: var(--ink-dim);
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            font-size: 0.78rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: color 0.25s;
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: var(--gold-bright);
+        }
+
+        .nav a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: var(--bg-panel-2);
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 8px 10px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .hamburger:hover {
+            border-color: var(--line-strong);
+        }
+
+        .hamburger span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--gold);
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
+            width: 26px;
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
+            width: 26px;
+        }
+
+        /* ===== HERO (mantido) ===== */
+        .hero {
+            min-height: 88vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 0 90px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-mark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -52%);
+            width: 900px;
+            max-width: 140vw;
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero .container {
+            text-align: center;
+            max-width: 880px;
+        }
+
+        .hero-logo {
+            max-width: 180px;
+            width: 100%;
+            height: auto;
+            margin-bottom: 1.5rem;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--line-strong);
+            padding: 0.45rem 1.1rem;
+            border-radius: 3px;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.6rem, 7vw, 4.6rem);
+            font-weight: 700;
+            line-height: 1.08;
+            margin-bottom: 1.7rem;
+        }
+
+        .hero h1 .accent {
+            color: var(--gold);
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .sub {
+            font-size: 1.15rem;
+            max-width: 620px;
+            margin: 0 auto 2.6rem;
+            color: var(--ink-dim);
+            font-weight: 400;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin: 2.6rem 0 3rem;
+            flex-wrap: wrap;
+        }
+
+        .badge-item .num {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var(--gold-bright);
+            display: block;
+        }
+
+        .badge-item .label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.95rem 2.4rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 0.82rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: #000000;
+            border: 1px solid var(--gold);
+        }
+
+        .btn-primary:hover {
+            background: var(--gold-bright);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--ink);
+            border: 1px solid var(--line-strong);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--gold);
+            color: var(--gold-bright);
+            transform: translateY(-3px);
+        }
+
+        /* ===== PILARES (mantido) ===== */
+        .pilares {
+            padding: 80px 0;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .pilares-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 2rem 0 2.5rem;
+        }
+
+        .pilar-card {
+            text-align: center;
+            background: var(--bg-panel);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 1.8rem 1.2rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .pilar-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--gold);
+        }
+
+        .pilar-card img {
+            width: 100%;
+            max-width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--line-strong);
+            transition: border-color 0.3s;
+            display: block;
+            margin: 0 auto 1.2rem;
+        }
+
+        .pilar-card:hover img {
+            border-color: var(--gold);
+        }
+
+        .pilar-card h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #f5f0e6;
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.5px;
+        }
+
+        .pilar-card .pilar-sub {
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.9rem;
+            color: var(--ink-dim);
+            font-weight: 400;
+        }
+
+        .pilares-texto {
+            max-width: 780px;
+            margin: 0 auto;
+            text-align: center;
+            color: var(--ink-dim);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            padding: 0 1rem;
+        }
+
+        .pilares-texto strong {
+            color: var(--gold-bright);
+            font-weight: 600;
+        }
+
+        /* ===== SECTION HEADERS ===== */
+        .section-head {
+            text-align: center;
+            margin-bottom: 3.2rem;
+        }
+
+        .section-head .eyebrow {
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+
+        .section-head h2 {
+            font-size: clamp(1.9rem, 4vw, 2.6rem);
+            font-weight: 700;
+        }
+
+        /* ===== FEEDBACK (mantido) ===== */
+        .feedback-section {
+            padding: 100px 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .feedback-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feedback-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 1.8rem 1.6rem 1.6rem;
+            transition: transform 0.35s ease, border-color 0.35s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feedback-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--gold);
+        }
+
+        .feedback-card .fb-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .feedback-card .fb-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--line-strong);
+            flex-shrink: 0;
+            background: var(--bg-panel-2);
+        }
+
+        .feedback-card .fb-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #f5f0e6;
+            letter-spacing: 0.3px;
+        }
+
+        .feedback-card .fb-role {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.5px;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+
+        .feedback-card .fb-stars {
+            color: var(--gold);
+            font-size: 0.9rem;
+            margin: 0.2rem 0 0.6rem;
+            letter-spacing: 2px;
+        }
+
+        .feedback-card .fb-text {
+            font-size: 0.95rem;
+            color: var(--ink-dim);
+            line-height: 1.6;
+            flex-grow: 1;
+            font-style: italic;
+        }
+
+        .feedback-card .fb-text::before {
+            content: '\201C';
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-right: 4px;
+            font-style: normal;
+        }
+
+        .feedback-card .fb-text::after {
+            content: '\201D';
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-left: 4px;
+            font-style: normal;
+        }
+
+        .feedback-card .fb-meta {
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.5px;
+            color: var(--ink-faint);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            border-top: 1px solid var(--line);
+            padding-top: 0.8rem;
+        }
+
+        .feedback-card .fb-meta i {
+            color: var(--gold);
+        }
+
+        /* ===== CONQUISTAS (mantido) ===== */
+        .conquistas-section {
+            padding: 100px 0;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .conquistas-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.6rem;
+        }
+
+        .conquista-item {
+            background: var(--bg-panel);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: transform 0.35s ease, border-color 0.35s ease;
+            position: relative;
+        }
+
+        .conquista-item:hover {
+            transform: translateY(-6px);
+            border-color: var(--gold);
+        }
+
+        .conquista-item img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            transition: filter 0.3s ease;
+        }
+
+        .conquista-item:hover img {
+            filter: brightness(1.05) contrast(1.05);
+        }
+
+        .conquista-item .conquista-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            padding: 0.3rem 0.9rem;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 1px;
+            color: var(--gold);
+            text-transform: uppercase;
+            border: 1px solid var(--gold);
+        }
+
+        .conquista-item .conquista-label {
+            padding: 0.9rem 1.2rem 1rem;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #f5f0e6;
+            letter-spacing: 0.3px;
+            text-align: center;
+            background: var(--bg-panel-2);
+            border-top: 1px solid var(--line);
+        }
+
+        /* ===== VIDEO ===== */
+        .video-section {
+            padding: 100px 0;
+            position: relative;
+            border-top: 1px solid var(--line);
+        }
+
+        .video-frame {
+            margin: 0 auto;
+            max-width: 940px;
+            position: relative;
+            padding: 22px;
+        }
+
+        .video-frame::before,
+        .video-frame::after,
+        .corner-tl,
+        .corner-br {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            border: 2px solid var(--gold);
+        }
+
+        .video-frame::before {
+            top: 0;
+            left: 0;
+            border-right: none;
+            border-bottom: none;
+        }
+        .video-frame::after {
+            bottom: 0;
+            right: 0;
+            border-left: none;
+            border-top: none;
+        }
+        .corner-tl {
+            top: 0;
+            right: 0;
+            border-left: none;
+            border-bottom: none;
+        }
+        .corner-br {
+            bottom: 0;
+            left: 0;
+            border-right: none;
+            border-top: none;
+        }
+
+        .video-box {
+            height: 450px;
+            background: var(--bg-panel);
+            border: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            color: var(--ink-dim);
+            position: relative;
+            transition: border-color 0.3s;
+            overflow: hidden;
+        }
+
+        .video-box:hover {
+            border-color: var(--line-strong);
+        }
+
+        .video-box iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .video-tag {
+            position: absolute;
+            top: 18px;
+            left: 22px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--ember);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 5;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 4px 12px;
+            border-radius: 2px;
+        }
+
+        .video-tag::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--ember);
+            animation: blink 1.6s infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0.25;
+            }
+        }
+
+        /* ===== RESULTADOS (mantido) ===== */
+        .field-records {
+            padding: 100px 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.6rem;
+        }
+
+        .record-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.35s ease, border-color 0.35s ease;
+        }
+
+        .record-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--line-strong);
+        }
+
+        .record-tag {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.7rem 1.1rem;
+            border-bottom: 1px solid var(--line);
+            background: var(--bg-panel-2);
+        }
+
+        .record-tag .id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 1.5px;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .record-tag .status {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            color: var(--ink-faint);
+            text-transform: uppercase;
+        }
+
+        .record-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(15%) contrast(1.05);
+        }
+
+        .record-body {
+            padding: 1.2rem 1.3rem 1.4rem;
+        }
+
+        .record-body .result-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--ink);
+            text-transform: none;
+            letter-spacing: 0.2px;
+        }
+
+        .record-body .result-desc {
+            font-size: 0.9rem;
+            color: var(--ink-dim);
+            margin-top: 0.35rem;
+        }
+
+        .record-body .result-metric {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gold-bright);
+            margin-top: 0.6rem;
+        }
+
+        /* ============================================
+                   PLANOS / ASSINATURAS (COM PROMOÇÃO DESTAQUE)
+                   ============================================ */
+        .plans-section {
+            padding: 100px 0;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            align-items: stretch;
+        }
+
+        /* --- Card padrão --- */
+        .plan-card {
+            background: var(--bg-panel);
+            border: 2px solid #2a3a4a;
+            border-radius: 4px;
+            padding: 2.2rem 1.8rem 2rem;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.35s ease;
+            position: relative;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .plan-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--gold);
+            box-shadow: 0 12px 40px rgba(187, 183, 115, 0.2);
+        }
+
+        .plan-card.premium {
+            border-color: var(--gold);
+            box-shadow: 0 4px 32px rgba(210, 211, 123, 0.15);
+            background: radial-gradient(ellipse at top left, rgba(30, 29, 28, 0.04), transparent 70%);
+        }
+
+        .plan-card.premium:hover {
+            border-color: var(--gold-bright);
+            box-shadow: 0 12px 48px rgba(231, 216, 49, 0.35);
+            background: radial-gradient(ellipse at top left, rgba(179, 168, 92, 0.08), transparent 70%);
+        }
+
+        .plan-card .plan-badge {
+            display: inline-block;
+            background: var(--gold);
+            color: #000;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 0.3rem 1rem;
+            border-radius: 2px;
+            margin-bottom: 0.8rem;
+            align-self: flex-start;
+        }
+
+        .plan-card .plan-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.2rem;
+            color: var(--gold);
+        }
+
+        .plan-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.2rem;
+            color: #f5f0e6;
+        }
+
+        .plan-card .plan-sub {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: var(--ink-faint);
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+
+        .plan-card .plan-price {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--gold-bright);
+            margin: 0.3rem 0 0.2rem;
+        }
+
+        .plan-card .plan-price small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--ink-dim);
+            font-family: 'Work Sans', sans-serif;
+            margin-left: 4px;
+        }
+
+        .plan-card .plan-old-price {
+            font-size: 0.85rem;
+            color: var(--ink-faint);
+            text-decoration: line-through;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-card .plan-desc {
+            font-size: 0.9rem;
+            color: var(--ink-dim);
+            margin: 0.5rem 0 1.2rem;
+            line-height: 1.6;
+        }
+
+        .plan-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.8rem 0;
+            flex-grow: 1;
+        }
+
+        .plan-card ul li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--ink-dim);
+            padding: 0.4rem 0;
+            border-bottom: 1px solid var(--line);
+            line-height: 1.4;
+        }
+
+        .plan-card ul li:last-child {
+            border-bottom: none;
+        }
+
+        .plan-card ul li i {
+            color: var(--gold);
+            font-size: 0.9rem;
+            margin-top: 0.15rem;
+            flex-shrink: 0;
+        }
+
+        .plan-card .btn {
+            width: 100%;
+            justify-content: center;
+            margin-top: auto;
+        }
+
+        .plan-card .btn-outline-gold {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+        }
+
+        .plan-card .btn-outline-gold:hover {
+            background: var(--gold);
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(49, 68, 231, 0.25);
+        }
+
+        /* ----- CARD DA PROMOÇÃO (DESTAQUE QUENTE) ----- */
+        .plan-card.hot-promo {
+            background: linear-gradient(145deg, #1f0c0a 0%, #2d1310 40%, #3d1a12 100%);
+            border: 2px solid #e35f2b;
+            box-shadow: 0 0 30px rgba(227, 95, 43, 0.3), inset 0 0 60px rgba(227, 95, 43, 0.05);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            z-index: 2;
+        }
+
+        .plan-card.hot-promo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(227, 95, 43, 0.08), transparent, rgba(227, 95, 43, 0.08), transparent);
+            animation: rotateGlow 12s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes rotateGlow {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .plan-card.hot-promo::after {
+            content: '🔥';
+            position: absolute;
+            top: 10px;
+            right: 16px;
+            font-size: 2.2rem;
+            opacity: 0.7;
+            animation: flame 1.8s ease-in-out infinite alternate;
+            z-index: 1;
+        }
+
+        @keyframes flame {
+            0% {
+                transform: scale(0.9) rotate(-5deg);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(1.3) rotate(5deg);
+                opacity: 1;
+            }
+        }
+
+        .plan-card.hot-promo:hover {
+            transform: translateY(-10px) scale(1.01);
+            border-color: #ff7a3a;
+            box-shadow: 0 0 50px rgba(227, 95, 43, 0.6), 0 12px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .plan-card.hot-promo .promo-badge {
+            display: inline-block;
+            background: #e35f2b;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 0.4rem 1.4rem;
+            border-radius: 30px;
+            margin-bottom: 0.8rem;
+            align-self: flex-start;
+            box-shadow: 0 0 20px rgba(227, 95, 43, 0.4);
+            animation: pulseBadge 2s infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes pulseBadge {
+            0%,
+            100% {
+                box-shadow: 0 0 10px rgba(227, 95, 43, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(227, 95, 43, 0.8), 0 0 60px rgba(227, 95, 43, 0.3);
+            }
+        }
+
+        .plan-card.hot-promo h3 {
+            font-size: 1.7rem;
+            color: #fff4e6;
+            text-shadow: 0 0 20px rgba(227, 95, 43, 0.4);
+            position: relative;
+            z-index: 2;
+        }
+
+        .plan-card.hot-promo .plan-price {
+            color: #ff8c5a;
+            font-size: 2.8rem;
+            text-shadow: 0 0 30px rgba(227, 95, 43, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .plan-card.hot-promo .plan-price small {
+            color: #ffb08a;
+        }
+
+        .plan-card.hot-promo .plan-old-price {
+            color: #b06a4a;
+            position: relative;
+            z-index: 2;
+        }
+
+        .plan-card.hot-promo .plan-desc {
+            color: #f0cfb8;
+            position: relative;
+            z-index: 2;
+        }
+
+        .plan-card.hot-promo ul li {
+            color: #f0cfb8;
+            border-bottom-color: rgba(227, 95, 43, 0.25);
+            position: relative;
+            z-index: 2;
+        }
+
+        .plan-card.hot-promo ul li i {
+            color: #ff7a3a;
+            filter: drop-shadow(0 0 6px rgba(227, 95, 43, 0.5));
+        }
+
+        .plan-card.hot-promo .btn-hot {
+            background: linear-gradient(135deg, #e35f2b, #d94a1a);
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            box-shadow: 0 0 30px rgba(227, 95, 43, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .plan-card.hot-promo .btn-hot:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 0 50px rgba(227, 95, 43, 0.8);
+            background: linear-gradient(135deg, #ff7a3a, #e35f2b);
+        }
+
+        .plan-card.hot-promo .hot-highlight {
+            display: inline-block;
+            background: rgba(227, 95, 43, 0.2);
+            border: 1px solid #e35f2b;
+            border-radius: 30px;
+            padding: 0.15rem 0.9rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            color: #ff8c5a;
+            text-transform: uppercase;
+            margin-top: 0.3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ===== SOBRE (mantido) ===== */
+        .sobre-section {
+            padding: 100px 0;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .sobre-content {
+            max-width: 780px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--ink-dim);
+        }
+
+        .sobre-content p {
+            margin-bottom: 1.2rem;
+        }
+
+        .sobre-content strong {
+            color: var(--gold-bright);
+        }
+
+        /* ===== CTA ===== */
+        .cta {
+            text-align: center;
+            padding: 110px 20px;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            position: relative;
+        }
+
+        .cta h2 {
+            font-size: clamp(2.2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1.1rem;
+        }
+
+        .cta p {
+            color: var(--ink-dim);
+            font-size: 1.1rem;
+            margin-bottom: 2.6rem;
+            max-width: 560px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ===== REDES ===== */
+        .social-links {
+            margin-top: 1.8rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            color: var(--ink-dim);
+            font-size: 1.8rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .social-links a i {
+            font-size: 2rem;
+        }
+
+        .social-links a:hover {
+            color: var(--gold-bright);
+            transform: translateY(-4px);
+        }
+
+        .social-links .social-label {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .social-links a {
+                font-size: 0.8rem;
+                gap: 0.3rem;
+            }
+            .social-links a i {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* ===== WHATSAPP ===== */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 58px;
+            height: 58px;
+            background: #25d366;
+            border-radius: 50%;
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
+            color: #fff;
+            font-size: 1.9rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(16, 13, 10, 0.4);
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 32px rgba(37, 211, 102, 0.5);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 2.2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.5px;
+            color: var(--ink-faint);
+            border-top: 1px solid var(--line);
+        }
+
+        footer strong {
+            color: var(--ink-dim);
+            font-weight: 600;
+        }
+
+        /* ===== SCROLL REVEAL ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+            .video-tag::before {
+                animation: none;
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 68px;
+            }
+            .logo-mark {
+                width: 80px;
+                height: 80px;
+            }
+            .header-logo .logo-text {
+                font-size: 1.1rem;
+            }
+            .header-logo .logo-text span {
+                font-size: 0.8rem;
+            }
+            .hamburger {
+                display: flex;
+            }
+
+            .nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.97);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                align-items: center;
+                gap: 0;
+                padding: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease, padding 0.3s ease;
+                border-bottom: 1px solid var(--line-strong);
+            }
+
+            .nav.open {
+                max-height: 380px;
+                padding: 1.2rem 0;
+            }
+
+            .nav a {
+                width: 100%;
+                text-align: center;
+                padding: 0.9rem 0;
+                font-size: 0.85rem;
+                border-bottom: 1px solid var(--line);
+            }
+            .nav a:last-child {
+                border-bottom: none;
+            }
+            .nav a::after {
+                display: none;
+            }
+
+            .badge-row {
+                gap: 1.6rem;
+            }
+            .video-box {
+                height: 240px;
+            }
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+            .record-card img {
+                height: 150px;
+            }
+
+            .plans-grid {
+                grid-template-columns: 1fr;
+                max-width: 480px;
+                margin: 0 auto;
+            }
+
+            .pilares-grid {
+                grid-template-columns: 1fr;
+                max-width: 380px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .pilar-card img {
+                max-width: 140px;
+                height: 140px;
+            }
+
+            .conquistas-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .feedback-grid {
+                grid-template-columns: 1fr;
+                max-width: 480px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-logo .logo-text {
+                font-size: 0.9rem;
+            }
+            .logo-mark {
+                width: 64px;
+                height: 64px;
+            }
+            .hero h1 {
+                font-size: 1.9rem;
+            }
+            .cta h2 {
+                font-size: 1.8rem;
+            }
+            .btn {
+                padding: 0.85rem 1.7rem;
+                font-size: 0.74rem;
+            }
+            .plan-card .plan-price {
+                font-size: 2rem;
+            }
+            .conquistas-grid {
+                grid-template-columns: 1fr;
+                max-width: 360px;
+                margin: 0 auto;
+            }
+            .conquista-item img {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="#" class="header-logo">
+                <span class="logo-mark"><img src="logoo.png" alt="Alfa negocios" /></span>
+                <span class="logo-text">ALFA<span> DOS Métodos</span></span>
+            </a>
+
+            <nav class="nav" id="navMenu">
+                <a href="#hero">Início</a>
+                <a href="#video">Método</a>
+                <a href="#planos">Planos</a>
+                <a href="#cta">Contato</a>
+            </nav>
+
+            <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+        <svg class="hero-mark" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path fill="none" stroke="#c9973e" stroke-width="0.6" d="M100 20 L60 90 L20 180 L75 150 L100 190 L125 150 L180 180 L140 90 Z" />
+        </svg>
+        <div class="container">
+            <img src="capaa.png" alt="Alfa Métodos" class="hero-logo" />
+
+            <div class="eyebrow"><i class="fas fa-shield-halved" style="margin-right:2px;"></i> Comunidade fechada · vagas limitadas</div>
+            <h1>
+                O maior grupo de métodos do cenário<br />
+                <span class="accent">'DESDE 2022'</span>
+            </h1>
+            <p class="sub">
+                🐺 Temos o melhor Conteúdo do mercado de Superodds, missões, giros grátis e free bets em TODAS AS PLATAFORMAS, 85% de conteúdo original.
+            </p>
+
+            <div class="badge-row">
+                <div class="badge-item"><span class="num">700+</span><span class="label">Membros ativos</span></div>
+                <div class="badge-item"><span class="num">98%</span><span class="label">Aprovação</span></div>
+                <div class="badge-item"><span class="num">1</span><span class="label">Países</span></div>
+            </div>
+
+            <div class="buttons">
+                <a href="#planos" class="btn btn-primary"><i class="fas fa-bolt"></i> Quero fazer parte</a>
+                <a href="#video" class="btn btn-secondary"><i class="fas fa-play"></i> Ver como funciona</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PILARES ===== -->
+    <section class="pilares reveal" id="pilares">
+        <div class="container">
+            <div class="section-head">
+                <span class="eyebrow">EQUIPE DE SUPORTE</span>
+                <h2>Temos 3 suportes para te auxiliar durante o dia</h2>
+            </div>
+
+            <div class="pilares-grid">
+                <div class="pilar-card">
+                    <img src="suporte1.jpeg" alt="" />
+                    <h3>SUPORTE</h3>
+                    <p class="pilar-sub">ADM Gold</p>
+                </div>
+                <div class="pilar-card">
+                    <img src="suporte2.jpeg" alt="" />
+                    <h3>SUPORTE</h3>
+                    <p class="pilar-sub">ADM Blue</p>
+                </div>
+                <div class="pilar-card">
+                    <img src="suporte3.jpeg" alt="" />
+                    <h3>SUPORTE</h3>
+                    <p class="pilar-sub">ADM Red</p>
+                </div>
+            </div>
+
+            <div class="pilares-texto">
+                <p>
+                    <strong>Estratégia, Execução e Resultados</strong> são os três alicerces que guiam cada membro da comunidade Alfa.
+                    Combinamos análise de dados, técnicas comprovadas e suporte ativo para que você possa transformar seu desempenho
+                    e alcançar <strong>resultados consistentes</strong> em qualquer plataforma. Temos um Grupo exclusivo voltado para quem é novato. Você recebe acesso a 7 canais no Telegram e 2 no WhatsApp.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== VÍDEO ===== -->
+    <section class="video-section reveal" id="video">
+        <div class="container">
+            <div class="section-head">
+                <span class="eyebrow">O método</span>
+                <h2>Conheça a Metodologia Alfa</h2>
+            </div>
+            <div class="video-frame">
+                <div class="corner-tl"></div>
+                <div class="corner-br"></div>
+                <div class="video-box" id="videoBox">
+                    <iframe src="video.mp4"
+                    title="Vídeo de apresentação Alfa Métodos"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FEEDBACK DOS ALUNOS ===== -->
+<section class="feedback-section reveal" id="feedback">
+    <div class="container">
+        <div class="section-head">
+            <span class="eyebrow"><i class="fas fa-comment-dots"></i> Depoimentos</span>
+            <h2>O que nossos alunos dizem</h2>
+        </div>
+        <div class="feedback-grid">
+
+            <div class="feedback-card">
+                <div class="fb-header">
+                    <img src="aluno.jpg" alt="Aluno" class="fb-avatar" />
+                    <div>
+                        <div class="fb-name">JaneteSanttos</div>
+                        <div class="fb-role">Membro desde 2023</div>
+                    </div>
+                </div>
+                <div class="fb-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="fb-text">
+                    Hoje encho o estoque de fraldas dos meus filhos gente ...coisa que antes eu não podia fazer meu armário sempre cheio graças a Deus e a equipe do alfa eternamente agradecida de coração
+                </div>
+                <div class="fb-meta">
+                    <i class="fas fa-check-circle"></i> Verificado
+                    <span style="margin-left:auto;"><i class="far fa-calendar-alt"></i> 2022</span>
+                </div>
+            </div>
+
+            <div class="feedback-card">
+                <div class="fb-header">
+                    <img src="aluno.jpg" alt="Aluno" class="fb-avatar" />
+                    <div>
+                        <div class="fb-name">Andrea Suzart</div>
+                        <div class="fb-role">Membro desde 2022</div>
+                    </div>
+                </div>
+                <div class="fb-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="fb-text">
+                    Galerinha venho compartilhar minha alegria, dei entrada no meu apartamento com o dinheiro que fiz no grupo e ao alfa muito obrigada!
+                </div>
+                <div class="fb-meta">
+                    <i class="fas fa-check-circle"></i> Verificado
+                    <span style="margin-left:auto;"><i class="far fa-calendar-alt"></i> 2022</span>
+                </div>
+            </div>
+
+            <div class="feedback-card">
+                <div class="fb-header">
+                    <img src="aluno.jpg" alt="Aluno" class="fb-avatar" />
+                    <div>
+                        <div class="fb-name">Luan Souza</div>
+                        <div class="fb-role">Membro desde 2022</div>
+                    </div>
+                </div>
+                <div class="fb-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="fb-text">
+                    Primeiramente Quero agradecer a Deus e segundo todos do grupo por essa jornada de mais de dois anos na betano, agradecer também ao @Suporte Alfa por tudo quem vem feito até aqui!! Hoje meu sonho de criança se realiza!
+                </div>
+                <div class="fb-meta">
+                    <i class="fas fa-check-circle"></i> Verificado
+                    <span style="margin-left:auto;"><i class="far fa-calendar-alt"></i> 2022</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ===== CONQUISTAS ===== -->
+<section class="conquistas-section reveal" id="conquistas">
+    <div class="container">
+        <div class="section-head">
+            <span class="eyebrow"><i class="fas fa-trophy"></i> Conquistas</span>
+            <h2>Imagens de Conquistas</h2>
+        </div>
+        <div class="conquistas-grid">
+
+            <div class="conquista-item">
+                <img src="conquista1.jpeg" alt="Conquista 1" />
+                <span class="conquista-badge"><i class="fas fa-award"></i> 1º lugar</span>
+                <div class="conquista-label">Lucro absurdo</div>
+            </div>
+
+            <div class="conquista-item">
+                <img src="conquista2.jpeg" alt="Conquista 2" />
+                <span class="conquista-badge"><i class="fas fa-star"></i> Destaque</span>
+                <div class="conquista-label">conquistas de menbro</div>
+            </div>
+
+            <div class="conquista-item">
+                <img src="conquista3.jpeg" alt="Conquista 3" />
+                <span class="conquista-badge"><i class="fas fa-fire"></i> Top 3</span>
+                <div class="conquista-label">+1 menbro da equipe</div>
+            </div>
+
+            <div class="conquista-item">
+                <img src="conquista4.jpeg" alt="Conquista 4" />
+                <span class="conquista-badge"><i class="fas fa-crown"></i> Campeão</span>
+                <div class="conquista-label">Maior rentabilidade do mês</div>
+            </div>
+
+            <div class="conquista-item">
+                <img src="conquista5.jpeg" alt="Conquista 5" />
+                <span class="conquista-badge"><i class="fas fa-bolt"></i> Acelerado</span>
+                <div class="conquista-label">Metas batidas em 1 dias</div>
+            </div>
+
+            <div class="conquista-item">
+                <img src="conquista6.jpeg" alt="Conquista 6" />
+                <span class="conquista-badge"><i class="fas fa-gem"></i> Premium</span>
+                <div class="conquista-label">Resultado consistente por 1 meses</div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ===== SOBRE ===== -->
+<section class="sobre-section reveal" id="sobre">
+    <div class="container">
+        <div class="section-head">
+            <span class="eyebrow"><i class="fas fa-building"></i> Nossa história</span>
+            <h2>Alfa dos Métodos</h2>
+        </div>
+        <div class="sobre-content">
+            <p>
+                A <strong>Alfa dos Métodos</strong> é uma das maiores equipes de Network Marketing, transformando vidas e criando oportunidades desde <strong>2022</strong>. Nossa missão é desenvolver pessoas, compartilhar conhecimento e construir uma comunidade forte, baseada em resultados, inovação e crescimento contínuo.
+            </p>
+            <p>
+                Ao longo da nossa trajetória, já ajudamos centenas de pessoas a iniciarem e expandirem seus negócios, sempre com suporte, estratégia e comprometimento. Na Alfa dos Métodos, acreditamos que o sucesso é construído em equipe, com dedicação, aprendizado e visão de futuro.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     PLANOS / ASSINATURAS — COM PROMOÇÃO DESTACADA (QUENTE)
+     ============================================================ -->
+<section class="plans-section reveal" id="planos">
+    <div class="container">
+        <div class="section-head">
+            <span class="eyebrow">Escolha seu plano</span>
+            <h2>Assinaturas Vitalícias</h2>
+        </div>
+        <div class="plans-grid">
+
+            <!-- Plano Premium -->
+            <div class="plan-card premium">
+                <span class="plan-badge"><i class="fas fa-crown"></i> Destaque</span>
+                <div class="plan-icon">🔥</div>
+                <h3>VAGA VITALÍCIA 💎 PREMIUM</h3>
+                <div class="plan-sub">🏅 Pacote Completo</div>
+                <div class="plan-price">R$ 1.450 <small>vitalício</small></div>
+                <div class="plan-desc">Acesso total ao ecossistema Alfa com todos os benefícios e futuras atualizações.</div>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Acesso Vitalício ao Time Alfa</li>
+                    <li><i class="fas fa-check-circle"></i> Chat Elite incluso</li>
+                    <li><i class="fas fa-check-circle"></i> Mentoria de Importação inclusa</li>
+                    <li><i class="fas fa-check-circle"></i> Acesso a TODOS os futuros projetos Alfa</li>
+                    <li><i class="fas fa-check-circle"></i> Novas mentorias futuras incluídas</li>
+                    <li><i class="fas fa-check-circle"></i> Importação do Paraguai e outras fontes</li>
+                </ul>
+                <a href="https://t.me/alfadosmetodos" class="btn btn-primary"><i class="fas fa-bolt"></i> Garantir vaga</a>
+            </div>
+
+            <!-- Plano Normal Vitalício -->
+            <div class="plan-card">
+                <div class="plan-icon">⚡</div>
+                <h3>VITALÍCIA NORMAL</h3>
+                <div class="plan-sub">Acesso essencial</div>
+                <div class="plan-price">R$ 950 <small>vitalício</small></div>
+                <div class="plan-old-price">De R$ 1.000</div>
+                <div class="plan-desc">Economia de R$ 75 por mês com todos os benefícios essenciais.</div>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Time Alfa Vitalício</li>
+                    <li><i class="fas fa-check-circle"></i> Chat Elite Vitalício</li>
+                    <li><i class="fas fa-check-circle"></i> Sem mensalidades</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>💰 Economia de R$ 75 por mês</strong></li>
+                </ul>
+                <a href="https://t.me/alfadosmetodos" class="btn btn-outline-gold"><i class="fas fa-pix"></i> Via PIX</a>
+            </div>
+
+            <!-- ===== CARD PROMOÇÃO – DESTAQUE QUENTE ===== -->
+            <div class="plan-card hot-promo">
+                <!-- Badge especial -->
+                <span class="promo-badge"><i class="fas fa-bolt"></i> PROMOÇÃO RELÂMPAGO</span>
+
+                <div class="plan-icon" style="color:#ff7a3a; font-size:2.8rem;">🔥</div>
+
+                <h3>
+                    <span style="color:#ffb08a;">Time Alfa</span> + <span style="color:#ffb08a;">Chat Elite</span>
+                </h3>
+                <div class="plan-sub" style="color:#f0cfb8;">
+                    🚀 Apenas R$ 70 PARA ENTRAR NO GRUPO AGORA
+                </div>
+
+                <div class="plan-price">R$ 70 <small>/ mês</small></div>
+                <div class="plan-old-price">De R$ 80</div>
+
+                <div class="plan-desc">
+                    Acesso essencial com <strong style="color:#ff8c5a;">todos os benefícios</strong> que vão impulsionar seus resultados.
+                </div>
+
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> <strong style="color:#fff4e6;">Time Alfa</strong> – suporte e comunidade</li>
+                    <li><i class="fas fa-check-circle"></i> <strong style="color:#fff4e6;">Chat Elite</strong> – conteúdo exclusivo</li>
+                    <li><i class="fas fa-check-circle"></i> Métodos testados e aprovados</li>
+                    <li><i class="fas fa-check-circle"></i> Atualizações diárias</li>
+                </ul>
+
+                <!-- Destaque extra -->
+                <div class="hot-highlight">
+                    <i class="fas fa-fire"></i> Oferta imperdível
+                </div>
+
+                <a href="https://t.me/alfadosmetodos" class="btn btn-hot">
+                    <i class="fas fa-pix"></i> GARANTIR VAGA
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta reveal" id="cta">
+    <div class="container">
+        <span class="eyebrow">Última chamada</span>
+        <h2 style="margin-top:1rem;">Pronto Para Evoluir?</h2>
+        <p>Vagas limitadas para manter o padrão do grupo. Entre e comece a colocar em prática o que já funciona.</p>
+        <a href="#planos" class="btn btn-primary" style="font-size:0.9rem; padding:1.05rem 2.8rem;">
+            <i class="fas fa-fire"></i> Siga nossas redes
+        </a>
+
+        <div class="social-links">
+            <a href="https://t.me/alfadosmetodos" target="_blank" aria-label="Telegram">
+                <i class="fab fa-telegram"></i> Telegram
+            </a>
+            <a href="https://www.instagram.com/alfadenegociosyt?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" aria-label="Instagram">
+                <i class="fab fa-instagram"></i> Instagram
+            </a>
+            <a href="https://youtube.com/@alfadosmetodos?si=rAx-qhI2la6Y47vP" target="_blank" aria-label="YouTube">
+                <i class="fab fa-youtube"></i> YouTube
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    2026 <strong>Alfa dos métodos</strong>
+</footer>
+
+<script>
+    (function() {
+        const hamburger = document.getElementById('hamburgerBtn');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            navMenu.classList.toggle('open');
+            hamburger.classList.toggle('active');
+        });
+
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('open');
+                hamburger.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            const isInside = navMenu.contains(event.target) || hamburger.contains(event.target);
+            if (!isInside) {
+                navMenu.classList.remove('open');
+                hamburger.classList.remove('active');
+            }
+        });
+
+        const revealEls = document.querySelectorAll('.reveal');
+        if ('IntersectionObserver' in window) {
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in');
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            revealEls.forEach(el => io.observe(el));
+        } else {
+            revealEls.forEach(el => el.classList.add('in'));
+        }
+    })();
+</script>
+
+</body>
+</html>
