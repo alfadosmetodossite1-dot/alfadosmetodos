@@ -556,7 +556,7 @@
             color: var(--gold);
         }
 
-        /* ===== CONQUISTAS (mantido) ===== */
+        /* ===== CONQUISTAS (modificado) ===== */
         .conquistas-section {
             padding: 100px 0;
             border-top: 1px solid var(--line);
@@ -621,6 +621,42 @@
             text-align: center;
             background: var(--bg-panel-2);
             border-top: 1px solid var(--line);
+        }
+
+        /* botão/link "Ver mais" */
+        .ver-mais-wrapper {
+            text-align: center;
+            margin-top: 2.5rem;
+        }
+
+        .btn-ver-mais {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 0.75rem 2.8rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-ver-mais:hover {
+            background: var(--gold);
+            color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(87, 74, 35, 0.3);
+        }
+
+        .btn-ver-mais i {
+            font-size: 0.9rem;
         }
 
         /* ===== VIDEO ===== */
@@ -1439,7 +1475,7 @@
     <header class="header">
         <div class="container">
             <a href="#" class="header-logo">
-                <span class="logo-mark"><img src="logoo.png" alt="Alfa negocios" /></span>
+                <span class="logo-mark"><img src="capaa.png" alt="Alfa negocios" /></span>
                 <span class="logo-text">ALFA<span> DOS Métodos</span></span>
             </a>
 
@@ -1610,7 +1646,7 @@
     </div>
 </section>
 
-<!-- ===== CONQUISTAS ===== -->
+<!-- ===== CONQUISTAS (com link "Ver mais") ===== -->
 <section class="conquistas-section reveal" id="conquistas">
     <div class="container">
         <div class="section-head">
@@ -1655,6 +1691,13 @@
                 <div class="conquista-label">Resultado consistente por 1 meses</div>
             </div>
 
+        </div>
+
+        <!-- Link "Ver mais conquistas" - ajuste o href para o destino desejado -->
+        <div class="ver-mais-wrapper">
+            <a href="https://www.instagram.com/stories/alfadenegociosyt/3912409869311904676?utm_source=ig_story_item_share&igsh=MXVlbjM5Mnk3MDVwcQ==" class="btn-ver-mais" target="_blank">
+                <i class="fas fa-chevron-down"></i> Ver mais conquistas
+            </a>
         </div>
     </div>
 </section>
